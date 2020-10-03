@@ -1,0 +1,61 @@
+﻿<Window x:Class="ReadVprAns.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:ReadVprAns"
+        mc:Ignorable="d"
+        Title="Программа для проверки ВПР" Height="600" Width="800">
+    <Grid Margin="15">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Grid.ColumnSpan="2">
+            <Label 
+                Style="{StaticResource MaterialDesignLabel}"
+                VerticalAlignment="Center"
+                BorderThickness="1"
+                BorderBrush="Coral"
+                Margin="2"
+                Padding="8"
+                Content="Папка с ответами участников: " Grid.Column="0"/>
+            <!--<Button Content="Отмена/выход" Margin="5" Grid.Column="3" DockPanel.Dock="Right"/>-->
+            <Button Name="LoadAnswers" Content="Загрузить работы" Margin="5" Grid.Column="2" DockPanel.Dock="Right" Click="LoadAnswers_Click"/>
+            <TextBox
+                Style="{StaticResource MaterialDesignTextBox}"
+                Name="PathToAnswers"
+                Text="выберите путь к папке с результатами..."
+                VerticalAlignment="Center"
+                BorderThickness="1"
+                Margin="2"
+                Padding="2"
+                BorderBrush="DarkGoldenrod"
+                Grid.Column="1" MouseDoubleClick="PathToAnswers_MouseDoubleClick"/>
+        </DockPanel>
+        <DockPanel Grid.Row="1" Grid.Column="0">
+            <Label DockPanel.Dock="Left" Content="Найти по коду Ученика"/>
+            <TextBox Text="" 
+                     Width="90" VerticalAlignment="Center" HorizontalContentAlignment="Center"
+                     Name="SearchingValue"
+                     KeyUp="SearchingValue_KeyUp"/>
+        </DockPanel>
+        <GroupBox Header="Список учеников" Grid.Row="2" Grid.Column="0" Margin="3">
+            <ListBox 
+                Name="AnswersList" 
+                SelectionChanged="AnswersList_SelectionChanged" 
+                />
+
+        </GroupBox>
+
+        <GroupBox Header="Результаты выбранной работы" Grid.Row="1" Grid.Column="1" Margin="3" Grid.RowSpan="2">
+            
+        </GroupBox>
+    </Grid>
+</Window>
