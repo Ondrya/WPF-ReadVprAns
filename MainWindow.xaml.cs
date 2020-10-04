@@ -6,8 +6,6 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Diagnostics;
-using System.Collections;
 using SWF = System.Windows.Forms;
 using System.Windows.Media;
 
@@ -26,29 +24,23 @@ namespace ReadVprAns
             InitializeComponent();
             Answers = new List<Answer>();
             AnswersFilterd = new List<Answer>();
-#if DEBUG
-            Path = "C:\\Users\\ondry\\Desktop\\ВПР англ 8\\ВПР англ 8";
-            SelectedPath.Text = Path;
-#endif
-            //DataContext = this;
         }
+
 
         /// <summary>
         /// Задать путь к директории с ответами
         /// </summary>
         private void PathToAnswers_Click(object sender, RoutedEventArgs e)
         {
-#if !DEBUG
             var folderBrowserDialog = new SWF.FolderBrowserDialog();
             folderBrowserDialog.ShowNewFolderButton = false;
             var DialogResult = folderBrowserDialog.ShowDialog();
             Path = folderBrowserDialog.SelectedPath;
             SelectedPath.Text = Path;
             if (Path != null) PathToAnswers.Background = Brushes.Green;
-#endif
-
             // TODO добавить проверку, найти хотя бы одну поддиректорию с фалом .ans
         }
+
 
         /// <summary>
         /// Фильтруем список загруженных работ
@@ -58,6 +50,7 @@ namespace ReadVprAns
             AnswersList.ItemsSource = Filter(Answers, (sender as TextBox).Text.Trim());
         }
 
+
         /// <summary>
         /// Вывести данные выбранного элемента
         /// </summary>
@@ -66,7 +59,6 @@ namespace ReadVprAns
             try
             {
                 var selectedAnswer = ((sender as ListBox).SelectedItem as Answer);
-
                 if (selectedAnswer == null) return;
 
                 AnswerInfoGroupBox.Header = $"Результаты работы {selectedAnswer.Id}";
@@ -77,15 +69,13 @@ namespace ReadVprAns
                 SelectedAnswerTask4.Text = selectedAnswer.RealAnswers[4];
                 SelectedAnswerTask5.Text = selectedAnswer.RealAnswers[5];
                 SelectedAnswerTask6.Text = selectedAnswer.RealAnswers[6];
-
-
             }
             catch (Exception ex)
             {
-                //Debug.WriteLine(ex.Message);
-            }
-            
+                MessageBox.Show(ex.Message);
+            }    
         }
+
 
         /// <summary>
         /// Очистка строки от непечатных символов, остаются только ответы
@@ -100,8 +90,6 @@ namespace ReadVprAns
         /// <summary>
         /// Загрузить данные из выбранной папки
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void LoadAnswers_Click(object sender, RoutedEventArgs e)
         {
             if (Path == null)
@@ -119,14 +107,12 @@ namespace ReadVprAns
                 var files = Directory.GetFiles(dir);
                 foreach (var file in files)
                 {
-                    //Console.WriteLine(file);
                     var fileInfo = new FileInfo(file);
                     var fileExtention = fileInfo.Extension;
                     if (fileExtention == ".ans")
                     {
                         try
                         {
-                            //var content = File.ReadAllText(file, Encoding.ASCII);
                             var content = File.ReadAllText(file, Encoding.UTF8);
 
                             var splitter = '\u0001'; //SOH
@@ -136,7 +122,6 @@ namespace ReadVprAns
                             var realAnswers = _realAnswers.Split('\b'); // каждый ответ начинается с кода BS
 
                             var realAnRealAnswers = new string[7];
-
                             realAnRealAnswers[0] = RemoveIsControlChar(realAnswersVariant);
                             realAnRealAnswers[1] = RemoveIsControlChar(realAnswers[1]);
                             realAnRealAnswers[2] = RemoveIsControlChar(realAnswers[2]);
@@ -145,14 +130,11 @@ namespace ReadVprAns
                             realAnRealAnswers[5] = RemoveIsControlChar(realAnswers[5]);
                             realAnRealAnswers[6] = RemoveIsControlChar(realAnswers[6]);
 
-                            //RemoveIsControlChar(realAnswers[1]);
-
                             Answers.Add(new Answer(dirName, content, realAnRealAnswers));
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-
-                            throw;
+                            MessageBox.Show(ex.Message);
                         }
                     }
                     else continue; // нас интересует только текстовый файл
@@ -164,6 +146,13 @@ namespace ReadVprAns
             AnswersList.ItemsSource = Filter(Answers, SearchingValue.Text.Trim());
         }
 
+        
+        /// <summary>
+        /// Отфильтровать список работ по пользовательскому вводу
+        /// </summary>
+        /// <param name="answers"></param>
+        /// <param name="search"></param>
+        /// <returns></returns>
         private List<Answer> Filter(List<Answer> answers, string search)
         {
             return answers.Where(a => a.Id.Contains(search)).ToList();

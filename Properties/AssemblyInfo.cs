@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("ReadVprAns")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Андрей Евсюгин")]
 [assembly: AssemblyProduct("ReadVprAns")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
