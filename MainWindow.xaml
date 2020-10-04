@@ -16,6 +16,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Grid.ColumnSpan="2">
             <Label 
@@ -28,16 +29,16 @@
                 Content="Папка с ответами участников: " Grid.Column="0"/>
             <!--<Button Content="Отмена/выход" Margin="5" Grid.Column="3" DockPanel.Dock="Right"/>-->
             <Button Name="LoadAnswers" Content="Загрузить работы" Margin="5" Grid.Column="2" DockPanel.Dock="Right" Click="LoadAnswers_Click"/>
-            <TextBox
-                Style="{StaticResource MaterialDesignTextBox}"
+            <Button
                 Name="PathToAnswers"
-                Text="выберите путь к папке с результатами..."
+                Content="выберите путь к папке с результатами..."
                 VerticalAlignment="Center"
                 BorderThickness="1"
                 Margin="2"
                 Padding="2"
                 BorderBrush="DarkGoldenrod"
-                Grid.Column="1" MouseDoubleClick="PathToAnswers_MouseDoubleClick"/>
+                Background="OrangeRed"
+                Grid.Column="1" Click="PathToAnswers_Click" />
         </DockPanel>
         <DockPanel Grid.Row="1" Grid.Column="0">
             <Label DockPanel.Dock="Left" Content="Найти по коду Ученика"/>
@@ -54,8 +55,54 @@
 
         </GroupBox>
 
-        <GroupBox Header="Результаты выбранной работы" Grid.Row="1" Grid.Column="1" Margin="3" Grid.RowSpan="2">
-            
+        <GroupBox Name="AnswerInfoGroupBox"  Header="Результаты работы ..." Grid.Row="1" Grid.Column="1" Margin="2.6,1.4,3.2,5" Grid.RowSpan="2">
+            <StackPanel>
+                <DockPanel>
+                    <Label Content="Вариант: " Style="{StaticResource MaterialDesignLabel}"/>
+                    <TextBlock Name="SelectedAnswer" Text="Работа не выбрана" VerticalAlignment="Center"/>
+                </DockPanel>
+                <Separator Style="{StaticResource MaterialDesignSeparator}"/>
+
+                <DockPanel>
+                    <Label Content="Задание 1: " Style="{StaticResource MaterialDesignLabel}"/>
+                    <TextBlock Name="SelectedAnswerTask1" Text="..." VerticalAlignment="Center"/>
+                </DockPanel>
+                <DockPanel>
+                    <Label Content="Задание 2: " Style="{StaticResource MaterialDesignLabel}"/>
+                    <TextBlock Name="SelectedAnswerTask2" Text="..." VerticalAlignment="Center"/>
+                </DockPanel>
+                <DockPanel>
+                    <Label Content="Задание 3: " Style="{StaticResource MaterialDesignLabel}"/>
+                    <TextBlock Name="SelectedAnswerTask3" Text="..." VerticalAlignment="Center"/>
+                </DockPanel>
+                <DockPanel>
+                    <Label Content="Задание 4: " Style="{StaticResource MaterialDesignLabel}"/>
+                    <TextBlock Name="SelectedAnswerTask4" Text="..." VerticalAlignment="Center"/>
+                </DockPanel>
+                <DockPanel>
+                    <Label Content="Задание 5: " Style="{StaticResource MaterialDesignLabel}"/>
+                    <TextBlock Name="SelectedAnswerTask5" Text="..." VerticalAlignment="Center"/>
+                </DockPanel>
+                <DockPanel>
+                    <Label Content="Задание 6: " Style="{StaticResource MaterialDesignLabel}"/>
+                    <TextBlock Name="SelectedAnswerTask6" Text="..." VerticalAlignment="Center"/>
+                </DockPanel>
+
+            </StackPanel>
         </GroupBox>
+        <StatusBar Grid.Row="4" Grid.ColumnSpan="2">
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Действие: "/>
+                    <TextBlock Name="LastAction" Text="..." VerticalAlignment="Center"/>
+                </StackPanel>
+            </StatusBarItem>
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Путь: "/>
+                    <TextBlock Name="SelectedPath" Text="..." VerticalAlignment="Center"/>
+                </StackPanel>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>
